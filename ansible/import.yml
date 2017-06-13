@@ -1,0 +1,32 @@
+---
+- name: AnsibleTower_Retirement Install
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  user: root
+
+  vars:
+    dest_dir: /root/
+    github_user: jonjozwiak
+    cfe_base_dir: "{{ dest_dir }}cloudforms-ansibletower-retirement"
+
+  tasks:
+  - name: Clone cfme-rhconsulting-scripts
+    git:
+      repo: https://github.com/rhtconsulting/cfme-rhconsulting-scripts.git
+      dest: "{{ dest_dir }}cfme-rhconsulting-scripts"
+
+  - name:  Install the cfme-rhconsulting-scripts
+    shell: make clean install
+    args:
+      chdir: "{{ dest_dir }}cfme-rhconsulting-scripts"
+
+  - name: Clone AnsibleTower_Retirement
+    git:
+      repo: "https://github.com/{{ github_user }}/cloudforms-ansibletower-retirement.git"
+      dest: "{{ cfe_base_dir }}"
+
+  - name: Import automate domain
+    shell: miqimport domain AnsibleTower_Retirement "{{ cfe_base_dir }}/automate"
+    args:
+chdir: "{{ cfe_base_dir }}"

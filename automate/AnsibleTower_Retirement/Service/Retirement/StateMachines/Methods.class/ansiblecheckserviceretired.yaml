@@ -1,0 +1,12 @@
+---
+object_type: instance
+version: 1.0
+object:
+  attributes:
+    display_name: 
+    name: AnsibleCheckServiceRetired
+    inherits: 
+    description: 
+  fields:
+  - execute:
+      value: wait_for_completion
